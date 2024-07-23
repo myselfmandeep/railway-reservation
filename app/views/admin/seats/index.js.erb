@@ -1,0 +1,12 @@
+const coach = $("#coach-<%=@coach.id%>")
+
+coach.append("<%= j render partial: 'layout', locals: {seats: @seats, coach: @coach} %>");
+
+const closeBtn = document.querySelectorAll(".close-modal");
+
+for(let element of closeBtn) {
+  element.addEventListener("click", function (e) {
+    const modal = document.getElementById("seats-modal");
+    modal.remove();
+  })
+};

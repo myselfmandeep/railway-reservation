@@ -1,0 +1,26 @@
+.container
+  .row
+    .col-8
+      h1 Tiers
+      / = render partial: "shared/alert", locals: {nature: "success", message: flash[:notice]}
+      = alert_bar("success")
+      table.table
+        thead
+          tr
+            th scope="col" Name
+            th scope="col" Short Name
+            th scope="col" Price Per Km.
+            th scope="col" Added At
+            th scope="col" Edit
+            th scope="col" Delete
+
+        tbody
+        - @tiers.each do |tier|
+          tr
+            th = tier.name
+            td = tier.short_form
+            td = tier.price_per_km
+            th = format_date(tier.created_at)
+            th = link_to "Edit",   edit_admin_tier_path(tier)
+            th = link_to "Delete", admin_tier_path(tier), method: :delete
+

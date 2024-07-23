@@ -1,0 +1,33 @@
+.container
+  .row
+    .col-8
+      h1 Train Routes
+      = render partial: "shared/filter_bar", locals: {scope: "filter-routes", values: ["name", "source", "destination"]}
+
+      table.table
+        thead
+          tr
+            th scope="col" Train
+            th scope="col" START AT
+            th scope="col" END AT
+            th scope="col" FROM
+            th scope="col" TO
+            th scope="col" DISTANCE
+            th scope="col" EDIT
+            th scope="col" DELETE
+            / th scope="col" FARE CHARGES
+        tbody
+        - @schedules.each do |schedule|
+          tr.route
+            th.train-name  = schedule.train.name
+            td             = schedule.arrived_at
+            td             = schedule.departure_at
+            th.source      = schedule.source_station&.name
+            td.destination = schedule.destination_station&.name
+            td             = schedule.distance
+            td             = link_to "Edit", edit_admin_schedule_path(schedule)
+            td             = link_to "Delete", admin_schedule_path(schedule), method: :delete
+            td             = 
+            / td = "Rs #{route.price}"
+
+= javascript_include_tag "filters/train-route-filter"

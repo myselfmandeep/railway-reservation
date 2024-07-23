@@ -1,0 +1,26 @@
+.container
+  h1 Search for train
+
+  / = render partial: "shared/alert", locals: {message: notice, nature: "danger"}
+  = alert_bar("danger")
+
+  = form_with scope: :search_query, url: search_path, method: :get, local: false do |f|
+    .row.g-3.align-items-center
+      .col-md-4
+        = f.label :source, class: "form-label"
+        / = f.select :source, Station.order(:name).collect {|station| [station.name, station.id]}.unshift(["Select source station", ""]), {}, {class: "form-select"}
+        = f.select :source, stations_list(true), {}, {class: "form-select select_source_station"}
+      .col-md-4
+        = f.label :destination, class: "form-label"
+        / = f.select :destination, Station.order(:name).collect {|station| [station.name, station.id]}.unshift(["Select destination station", ""]), {}, {class: "form-select"}
+        = f.select :destination, stations_list(false), {}, {class: "form-select select_destination_station"}
+      .col-md-4.d-flex.justify-content-md-start.align-items-md-end.mt-3
+        = f.submit "Search", class: "btn btn-secondary mt-2 p-2"
+        #swap-stations.btn.btn-secondary.m-2.p-2 Swap Stations
+
+  #search-for-trains
+  hr
+  
+  div#trains-list
+
+= javascript_include_tag "sessions/search"

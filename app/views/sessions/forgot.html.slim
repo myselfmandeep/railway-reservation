@@ -1,0 +1,28 @@
+.container
+  h1 Forgot Password
+
+  input#user_email type="text" placeholder="type email here"
+  button#request_token Request Token
+  
+  .col-4
+    = form_with scope: :forgot_password, url: reset_password_path, method: :post do |f|
+
+      .mb-2
+        = f.label :password_reset_token, class: "form-label"
+        = f.text_field :password_reset_token, class: "form-control"
+
+      .mb-2
+      = f.hidden_field :email, value: "", class: "forgot-password-email"
+
+      .mb-2
+      = f.label :password, class: "form-label"
+      = f.password_field :password, class: "form-control"
+      
+      .mb-2
+      = f.label :password_confirmation, class: "form-label"
+      = f.password_field :password_confirmation, class: "form-control"
+      
+      .mb-2
+      = f.submit "Reset Password", class: "btn btn-secondary"
+
+= javascript_include_tag "sessions/request_token"

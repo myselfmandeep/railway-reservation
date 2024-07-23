@@ -1,0 +1,21 @@
+.topnav
+  - if current_user.is_admin?
+    = link_to "Dashboard", admin_dashboard_path, class: "#{active_current_tab("dashboard")}"
+    = link_to "Add Train", new_admin_train_path, class: "#{active_current_tab("trains")}"
+    = link_to "Add Route", new_admin_schedule_path, class: "#{active_current_tab("schedule")}"
+    = link_to "Add Coach", new_admin_coach_path, class: "#{active_current_tab("coaches")}"
+    = link_to "Add Seat", new_admin_seat_path, class: "#{active_current_tab("seats")}"
+    = link_to "Add Tier", new_admin_tier_path, class: "#{active_current_tab("tiers")}"
+    / = link_to "Profile", admin_user_path(current_user), class: "#{active_current_tab("users")}"
+  - else
+    = link_to "Homepage", root_path, class: "#{active_current_tab("homepage")}"
+
+  = link_to "Profile", profile_path, class: "#{active_current_tab("profile")}"
+  = link_to "Bookings", bookings_path, class: "#{active_current_tab("booking")}"
+  = link_to "Logout", logout_path, method: :delete, class: "bg-danger"
+  
+  .m-3
+  input#pnr-number type="text" placeholder="search with pnr" style="margin-left: 20px"
+  button#search-booking Search Booking
+
+= javascript_include_tag "bookings/search_for_booking"

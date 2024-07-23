@@ -1,0 +1,41 @@
+.container
+  h1 Train
+  .row
+    = render partial: "admin/shared/errors", locals: {object: train}
+  
+    = form_with model: train, url: url do |f|
+      .col-3.mb-3
+        = f.label :name, class: "form-label"
+        = f.text_field :name, class: "form-control"
+      
+      / .col-3.mb-3
+      /   = f.label :uniq_number, class: "form-label"
+      /   = f.text_field :uniq_number, class: "form-control"
+      
+      / .col-3.mb-3.d-flex
+        / = f.label :working_days, class: "form-check-label"
+        / .form-check
+          / = f.collection_check_boxes :working_days, Train::WORKING_DAYS.collect { |wd| [wd, wd] }, :first, :second, include_hidden: false, class: "form-check-input" do |check_box|
+      .col-3.mb-3.d-flex.m-2.justify-content
+        - Train::WORKING_DAYS.each do |day|
+          .form-check.d-flex.flex-column.border.border-dark.m-2
+            = check_box_tag "working_days[]", day, id: "working_day_#{day}", class: "form-check-input select-working-days", style: "width: 35px; height: 35px;"
+            = label_tag "working_day_#{day}", day, class: "form-check-label"
+        
+        #select-all-days.btn.btn-success select all
+
+
+      .col-2.mb-3.d-flex.m-2.justify-content
+        - Coach.order(:name).each do |coach|
+          .col-4.form-check.d-flex.flex-column.border.border-dark.m-2
+            = check_box_tag "coaches[]", coach.id, id: "coach#{coach.name}", class: "form-check-input select-coaches", style: "width: 25px; height: 25px;"
+            = label_tag "coach#{coach.name}", coach.name, class: "form-check-label"
+        #select-all-coaches.btn.btn-success select all
+        
+      .col-3.mb-3
+        = f.label :category
+        = f.select :category, Train::CATEGORY.map { |cat| [cat, cat] }, {}, class: "form-select"
+      
+      = f.submit
+
+= javascript_include_tag "trains/add_train_form"

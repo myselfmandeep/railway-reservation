@@ -1,0 +1,24 @@
+
+= form_with model: seat_obj, url: admin_seats_path do |f|
+  .col.mb-3
+    / = binding.pry
+    = f.hidden_field :coach_id, value: coach
+    
+    = f.fields_for(:seats) do |field|
+      - f.object.new_seats.each_with_index do |seat, index|
+          = field.fields_for("seat_#{index}".to_sym) do |s|
+            / = seat.label :number, class: "form-label"
+            .row.m-2
+              .col-4
+                = s.number_field :number, class: "form-control", placeholder: "seat no."
+              .col-4
+                = s.select :berth, Seat::BERTH.map{|berth| [berth, berth]}, {}, class: "form-control"
+              .col-4
+                = s.select :position, Seat::POSITION.map {|pos| [pos, pos]},{}, class: "form-control"
+    
+        
+  / #add-one-more-seat.btn.btn-secondary Add more seats
+
+  = f.submit class: "btn btn-primary m-3"
+          
+/ = javascript_include_tag "seats/add_seats"

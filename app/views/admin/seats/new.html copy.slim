@@ -1,0 +1,26 @@
+.container
+  .row
+    .col-8 
+      h1 Add seats to coach
+      / = render partial: "admin/shared/errors", locals: {object: @seat}
+      / = render partial: "shared/alert", locals: {message: @message, nature: "danger"}
+      = alert_bar("danger")
+      = form_with model: @seat, url: admin_seats_path do |f|
+        .col.mb-3
+          = f.label :coach_id, class: "form-label"
+          = f.select :coach_id, Coach.order(:name).map {|coach| [coach.name, coach.id]}, {}, class: "form-control"
+          
+        #add-seat-here.col.mb-3
+          = f.fields_for(:seats) do |nest|
+            .single-seat.d-flex.m-2
+              = nest.fields_for(:seat_0) do |seat|
+                / = seat.label :number, class: "form-label"
+                = seat.number_field :number, class: "form-control", placeholder: "seat no."
+                = seat.select :berth, Seat::BERTH.map{|berth| [berth, berth]}, {}, class: "form-control"
+                = seat.select :position, Seat::POSITION.map {|pos| [pos, pos]},{}, class: "form-control"
+              
+        #add-one-more-seat.btn.btn-secondary Add more seats
+
+        = f.submit class: "btn btn-primary m-3"
+          
+= javascript_include_tag "seats/add_seats"

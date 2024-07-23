@@ -1,0 +1,9 @@
+console.log("this is new file of new js erb seasts")
+
+const seatsForm = $("#seats-form");
+const seatsFormContainer = $("#seats-form-container");
+
+seatsForm.remove();
+
+seatsFormContainer.append("<%= j render "form", seat_obj: @seat, coach: @coach %>")
+console.log("dfjsdfaldf")

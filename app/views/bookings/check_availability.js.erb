@@ -1,0 +1,3 @@
+const train = $("#train-<%=@route.train.id%>")
+
+train.append("<%= j render partial: 'check_availability', locals: { booking: @booking } %>");

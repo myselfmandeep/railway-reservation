@@ -1,0 +1,13 @@
+.modal.remove-modal.mt-5 id="payment-modal" tabindex="1" style="display: block;"
+  .modal-dialog
+    .modal-content
+      .modal-body
+        #booking-errors
+        h3
+          | Pay Amount: 
+          = amount
+
+        = form_with model: @payment, url: payments_path, local: false, id: "make-payment" do |f|
+          = f.hidden_field :paid_amount
+          = f.submit "Make Payment", class: "btn btn-secondary m-1"
+         

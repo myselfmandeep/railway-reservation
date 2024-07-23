@@ -1,0 +1,30 @@
+
+.modal id="seats-modal" tabindex="1" style="display: block;"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.btn-close.close-modal type="button"
+      .modal-body
+        h1
+          |
+          = "Coach: #{coach.name}"
+        - seats.each do |seat|
+          .card.mb-3.border.border-primary
+            ul.list-group.list-group-flush
+              li.list-group-item
+                b.text-danger NUMBER: 
+                = seat.number
+                | | 
+                b.text-danger BERTH: 
+                = seat.berth
+                | | 
+                b.text-danger POSITION: 
+                = seat.position
+                | | 
+                b.text-danger POSITION: 
+                = link_to "Edit", edit_admin_seat_path(seat)
+        hr
+      .modal-footer
+        button.btn.btn-secondary.close-modal type="button" data-bs-dismiss="modal" Cancel
+
+= javascript_include_tag "seats/close_modal"

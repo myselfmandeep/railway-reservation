@@ -1,0 +1,9 @@
+
+<% if @user_roles.errors.any? %>
+  const id    = (new Date()).getTime();
+  const error = "<span class='text-danger role-error'> <%=@user_roles.errors.full_messages %></span>"
+
+  $("#user-<%= @user.id%>").prepend(error);
+
+  $("#user-<%= @user.id %> .role-error").fadeOut(2500).remove(3000);
+<% end %>

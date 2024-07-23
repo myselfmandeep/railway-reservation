@@ -1,0 +1,37 @@
+.container
+  .row
+    .col-8 
+      h1 Ticket Booking
+      / = link_to "Make Payment", new_payment_path(), remote: true, class: "btn btn-primary"
+      = form_with model: @booking, id: "new-booking", url: bookings_path do |f|
+        = f.hidden_field :schedule_id, value: @booking.schedule.id, class: "train-route-id"
+        = f.hidden_field :coach_class, value: params[:coach_class], class: "coach-class"
+        = f.hidden_field :date, value: params[:date], class: "booking-date"
+        = f.hidden_field :amount, value: @amount, class: "booking-date"
+        = f.hidden_field :payment_id, value: "", class: "booking-payment"
+
+        .mb-3
+          .row
+            - f.object.tickets.each do |ticket|
+              .d-flex.overflow-hidden.col-8
+                = f.fields_for :tickets, ticket do |ticket_fields|
+                  .m-2.col-5
+                    = ticket_fields.label :name, class: "form-label"
+                    = ticket_fields.text_field :name, class: "form-control ticket-name"
+
+                  .m-2.col-2
+                    = ticket_fields.label :age, class: "form-label"
+                    = ticket_fields.number_field :age, class: "form-control ticket-age"
+
+                  .m-2.col-3
+                    = ticket_fields.label :gender
+                    = ticket_fields.select :gender, User::GENDER.collect {|gen| [gen, gen]}, {}, {class: "form-select ticket-gender"}
+
+        .mb-3
+          = f.submit "Book", class: "btn btn-secondary", id: "submit-booking"
+
+
+
+= render partial: "payments/form", locals: {amount: @amount}
+
+= javascript_include_tag "bookings/ticket_form"

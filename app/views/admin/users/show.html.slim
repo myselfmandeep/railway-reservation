@@ -1,0 +1,21 @@
+.container.mt-5
+  .row  
+    .col-8 
+      .card
+        .card-header 
+          h1 = @user.user_name
+        .card-body
+          p
+            b NAME: 
+            = @user.name
+          p
+            b EMAIL: 
+            = @user.email
+          p
+            b GENDER: 
+            = @user.gender
+          p
+            b ROLES: 
+            = @user.roles.pluck(:name)
+
+          = link_to "Edit Profile", edit_admin_user_path(@user), class: "btn btn-primary"

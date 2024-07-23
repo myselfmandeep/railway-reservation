@@ -1,0 +1,48 @@
+.container
+  - trains.each do |route|
+    p
+      b NAME: 
+      | 
+      = route.train.name
+    p
+      b TRAIN NUMBER: 
+      | 
+      = route.train.uniq_number
+    p
+      b STARTS AT: 
+      | 
+      / = format_date(route.arrived_at)
+      = route.arrived_at
+    p
+      b END AT: 
+      | 
+      / = format_date(route.departure_at)
+      = route.departure_at
+    p
+      b WORKING DAYS:  
+      |
+      - route.train.working_days.each do |day|
+        span
+          i = day[0..2]
+          |  | 
+    p
+      b CATEGORY: 
+      |
+      = route.train.category
+    p
+      b COACH Classes: 
+      |  |
+      - Coach.where(id: route.train.coaches).each do |coach|
+        span
+          i = coach.tier.short_form
+          |  |
+    / p 
+      b Travel Time:
+      | 
+      = time_difference(route.departure_at, route.arrived_at)
+    
+    = link_to "Check Availability", check_availability_bookings_path(schedule_id: route.id), remote: true, class: "btn btn-success"
+    / = departed_or_not(route)
+    hr
+
+    div id="train-#{route.train.id}"

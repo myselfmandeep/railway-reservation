@@ -1,0 +1,10 @@
+.container
+  .row
+    h1 Welcome #{@user.name}
+    .card style="width: 18rem;"
+      .card-body
+        h6.card-subtitle.mb-2.text-body-secondary
+          = @user.email
+        p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
+        = link_to "visit our site", "http://127.0.0.1:3000/", class: "card-link"
+        / a.card-link href="#" Another link

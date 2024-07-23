@@ -1,0 +1,75 @@
+.container
+  .row
+    .col-8
+      / = render partial: "shared/alert", locals: {message: flash[:notice], nature: "success"}
+      = alert_bar("success")
+      h1 Ticket
+      
+      .card.mb-3.border.border-primary
+        ul.list-group.list-group-flush
+          li.list-group-item
+            b Booked BY:
+            = @booking.user.name
+          li.list-group-item
+            b PNR NUMBER: 
+            = @booking.pnr_number
+          li.list-group-item
+            b DATE: 
+            = @booking.date
+          li.list-group-item
+            b TRAIN: 
+            = @train.name
+          li.list-group-item 
+            b UNIQ_NUMBER: 
+            = @train.uniq_number
+          li.list-group-item 
+            b JOURNEY AT: 
+            = "#{format_time(@booking.date, @route.arrived_at)} <-------> #{@route.departure_at}"
+          li.list-group-item 
+            b ADULTS: 
+            = @adults[true]&.count || 0
+          li.list-group-item 
+            b MINORS: 
+            = @adults[false]&.count || 0
+          li.list-group-item 
+            b AMOUNT PAID: 
+            = @booking.payment.paid_amount
+          - if @booking.payment.refund_amount.to_i > 0
+            li.list-group-item 
+              b AMOUNT REFUNDED : 
+              = @booking.payment.refund_amount
+        
+      table.table
+        thead
+          tr
+            th scope="col" NAME
+            th scope="col" AGE
+            th scope="col" GENDER
+            th scope="col" SEAT
+            th scope="col" COACH
+            th scope="col" CLASS
+            th scope="col" BERTH
+            th scope="col" STATUS
+            th scope="col" CANCEL 
+        tbody
+          - @tickets.each do |ticket|
+            tr id="ticket#{ticket.id}" class="#{confirmed_or_cancel(ticket.status)}"
+              td 
+                = ticket.name
+              td 
+                = ticket.age
+              th 
+                = ticket.gender
+              td 
+                = ticket.seat.number || "---------"
+              th 
+                = ticket.seat.coach.name || "---------"
+              th 
+                = ticket.seat.coach.tier.name || "---------"
+              td 
+                = ticket.seat.berth || "---------"
+              td.status
+                = ticket.status
+              td 
+                - unless ticket.status == Ticket::CANCELED
+                  = link_to "Cancel", booking_ticket_path(ticket_id: ticket.id), method: :delete, remote: true

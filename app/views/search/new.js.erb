@@ -1,0 +1,14 @@
+const trainsList = $("#trains-list");
+const searchForTrains = $("#search-for-trains");
+
+  trainsList.empty();
+
+<% if @routes.any? %>
+  <!-- if (trainsList.children().length < 1) {} -->
+    trainsList.append("<%= j render partial: 'shared/trains', locals: { trains: @routes, source: @source, destination: @destination } %>");
+<% else %>
+  trainsList.append("<%= j render partial: 'shared/alert', locals: {message: "No trains for this route", nature: "warning" }%>")
+  setTimeout(() => trainsList.empty(), 2000);
+  <!-- alert("no trains for this route") -->
+<% end %>
+

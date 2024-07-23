@@ -1,0 +1,19 @@
+= render partial: "admin/shared/errors", locals: {object: coach, message: flash[:notice]}
+= form_with model: coach, url: path do |f|
+  
+  .mb-3
+    = f.label :tier_id, class: "form-label"
+    = f.select :tier_id, Tier.all.collect { |tier| [tier.name, tier.id] }.unshift(["Select a category", ""]), {}, class: "form-control"
+
+  .mb-3
+    = f.label :name, class: "form-label"
+    = f.text_field :name, class: "form-control"
+    
+  .mb-3
+    = f.label :description, class: "form-label"
+    = f.text_field :description, class: "form-control", placeholder: "optional"
+  
+  .mb-3
+      = f.submit "#{coach.new_record? ? "Add" : "Edit"} Coach", class: "btn btn-secondary"
+
+= javascript_include_tag "coaches/add_coach"

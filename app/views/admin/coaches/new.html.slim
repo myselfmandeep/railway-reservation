@@ -1,0 +1,5 @@
+.container
+  .row
+    h1 Add Coach
+    .col-4
+      = render partial: "form", locals: {coach: @coach, path: admin_coaches_path}

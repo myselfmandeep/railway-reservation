@@ -1,0 +1,18 @@
+.container
+  .row
+    .col-8
+      h1 Booking Detail
+      .card.mb-3.border.border-primary
+        ul.list-group.list-group-flush
+          li.list-group-item
+            b PNR NUMBER: 
+            |
+            = @booking.pnr_number
+          li.list-group-item 
+            b FROM: 
+            |
+            = @booking.schedule.arrived_at
+          li.list-group-item 
+            b TO: 
+            |
+            = @booking.schedule.departure_at

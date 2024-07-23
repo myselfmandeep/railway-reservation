@@ -1,0 +1,38 @@
+.container
+  .row
+    col-8
+      h1 Users
+      = alert_bar("success")
+      - @users.each do |user|
+        .card.mb-3.border.border-primary id="user-#{user.id}"
+            ul.list-group.list-group-flush
+              li.list-group-item 
+                b NAME: 
+                = user.name
+              li.list-group-item 
+                b EMAIL: 
+                = user.email
+              li.list-group-item 
+                b USERNAME: 
+                = user.user_name  
+              li.list-group-item 
+                b GENDER: 
+                = (user.gender || ["-----"])[0].upcase
+              li.list-group-item 
+                b ROLES: 
+                = user.roles.pluck(:name)
+              li.list-group-item 
+                b STATUS: 
+                = user.account_status
+              li.list-group-item 
+                / = link_to "block user", account_status_admin_user_path(user), method: :post
+                = change_account_status(user)
+              - if Role.count > user.roles.count
+                li.list-group-item
+                  .row
+                    b Assign Roles: 
+                    = form_with url: assign_role_admin_user_path(user), local: false do |f|
+                      .col-3
+                        = f.select :role_id, (Role.distinct - user.roles).map {|role| [role.name, role.id]}, {}, class: "form-control"
+                      .col-3
+                        = f.submit "Assign Roles"

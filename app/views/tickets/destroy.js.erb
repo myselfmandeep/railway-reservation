@@ -1,0 +1,7 @@
+console.log("destroy has been triggered...")
+
+const ticket = document.querySelector("#ticket<%=@ticket.id %>");
+
+  ticket.classList.add("border", "border-danger")
+  ticket.querySelector(".status").innerHTML =  "<%= Ticket::CANCELED %>"
+

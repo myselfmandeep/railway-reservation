@@ -1,0 +1,28 @@
+.container
+  .row
+    h1 Coaches
+    / = render partial: "shared/alert", locals: {nature: "success", message: flash[:notice]}
+    = alert_bar("success")
+
+    .col-8 
+      - @coaches.each do |coach|
+        .card.mb-3.border.border-primary
+          ul.list-group.list-group-flush
+            li.list-group-item 
+              b NAME: 
+              = coach.name
+            li.list-group-item 
+              b CLASS NAME: 
+              = coach.tier.name
+            li.list-group-item 
+              b SLUG NAME: 
+              = coach.tier.short_form
+            li.list-group-item 
+              = link_to "Edit", edit_admin_coach_path(coach), class: "btn btn-primary"
+              |   
+              = link_to "Seats", admin_seats_path(coach_id: coach.id), remote: true, class: "btn btn-primary"
+              |   
+              = link_to "Delete", admin_coach_path(coach), class: "btn btn-danger", method: :delete
+            - if coach.seats.exists?
+              li.list-group-item
+              div id="coach-#{coach.id}"

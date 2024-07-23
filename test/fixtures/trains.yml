@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  uniq_number: 1
+  source_station: one
+  destination_station: one
+  start_at: MyString
+  end_at: MyString
+  coaches: 1
+
+two:
+  name: MyString
+  uniq_number: 1
+  source_station: two
+  destination_station: two
+  start_at: MyString
+  end_at: MyString
+  coaches: 1

@@ -1,0 +1,32 @@
+.container
+  .row
+    .col-8
+      h1 Seats
+      / = render partial: "shared/alert", locals: {nature: "success", message: flash[:notice]}
+      = alert_bar("success")
+      table.table
+        thead
+          tr
+            th scope="col" Coach
+            th scope="col" Class
+            th scope="col" Number
+            th scope="col" Berth
+            th scope="col" Position
+            / th scope="col" Added 
+            th scope="col" Edit
+            th scope="col" Delete
+
+        tbody
+        - @seats.each do |seat|
+          tr
+            th = seat.coach.name
+            th = seat.coach.tier.name
+            td = seat.number
+            td = seat.berth
+            td = seat.position
+            / th = format_date(seat.created_at)
+            th = link_to "Edit",   edit_admin_seat_path(seat)
+            th = link_to "Delete", admin_seat_path(seat), method: :delete
+
+    = will_paginate @seats
+  

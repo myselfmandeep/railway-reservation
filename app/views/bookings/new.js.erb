@@ -1,0 +1,3 @@
+const parent = $(".container")
+
+parent.append("<%= j render partial: "check_availability", locals: {booking: @booking, coach_class: params[:coach_class], date: params[:date], amount: @amount} %>")

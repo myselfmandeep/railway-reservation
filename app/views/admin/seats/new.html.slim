@@ -1,0 +1,20 @@
+.container
+  .row
+    .col-8
+      #seats-form-container
+        h1 Add seats to coach
+        = alert_bar("danger")
+        = form_with model: @seat, url: new_admin_seat_path, method: :get, local: false, id: "seats-form" do |f|
+          .col-5.mb-3
+            = f.label :coach_id, class: "form-label"
+            = f.select :coach_id, Coach.order(:name).map {|coach| [coach.name, coach.id]}, {}, class: "form-control"
+            
+          .col-5.mb-3
+            = f.label        :total_seats, "No. of seats to add", class: "form-label"
+            = f.number_field :total_seats,                        class: "form-control", placeholder: "150 max at a time"
+                
+          / #add-one-more-seat.btn.btn-secondary Add more seats
+
+          = f.submit class: "btn btn-primary m-3"
+          
+/ = javascript_include_tag "seats/add_seats"

@@ -1,0 +1,42 @@
+h1 Bookings
+
+= render partial: "shared/filter_bar", locals: {scope: "booking-filter", values: ["Train-name", "Train-no.", "Pnr", "User-name"]}
+
+table.table
+  thead
+    tr
+      - if current_user.is_admin?
+        th scope="col" User
+
+      th scope="col" PNR No.
+      th scope="col" Train No.
+      th scope="col" Train Name
+      th scope="col" Journey Date
+      th scope="col" Arrival
+      th scope="col" Departure
+      th scope="col" Amount Paid
+      th scope="col" Refund
+      th scope="col" Ticket
+  tbody
+    - @bookings.each do |booking|
+      tr.booking-record
+        - if current_user.is_admin?
+          th#b-user = booking.user.name
+        th#b-pnr
+          = booking.pnr_number
+        th#b-train-no 
+          = booking.schedule.train.uniq_number
+        td#b-train 
+          = booking.schedule.train.name
+        td = booking.date
+        td = booking.schedule.arrived_at        
+        td = booking.schedule.departure_at
+        td = booking.payment&.paid_amount  || "-----"
+        td = booking.payment&.refund_amount || "-----"
+        td
+          / button.btn.btn-danger.cancel-booking data-booking-id="#{booking.id}"
+          = link_to "Get Ticket", booking_ticket_path(booking.id)
+
+/ = will_paginate @posts
+= javascript_include_tag "bookings/cancel_booking"
+= javascript_include_tag "filters/booking-filter", type: :module

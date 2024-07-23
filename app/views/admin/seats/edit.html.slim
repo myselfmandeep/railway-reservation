@@ -1,0 +1,13 @@
+.container
+  .row
+    .col-8 
+      h1 Add seats to coach
+      = render partial: "admin/shared/errors", locals: {object: @seat}
+      = form_with model: @seat, url: admin_seat_path do |f|
+        = f.hidden_field :coach_id, value: @seat.coach.id
+        = f.number_field :number, class: "form-control", placeholder: "seat no."
+        = f.select :berth, Seat::BERTH.map{|berth| [berth, berth]}, {}, class: "form-control"
+        = f.select :position, Seat::POSITION.map {|pos| [pos, pos]},{}, class: "form-control"
+
+        = f.submit class: "btn btn-primary m-3"
+          

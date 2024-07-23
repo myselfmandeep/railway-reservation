@@ -1,0 +1,39 @@
+
+.modal id="seats-modal" tabindex="1" style="display: block;"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.btn-close.close-modal type="button"
+      .modal-body
+
+        h1 = "#{train.name}"
+        - unless routes.empty?
+          - routes.each do |route|
+            .card.mb-3.border.border-primary
+                ul.list-group.list-group-flush
+                  li.list-group-item
+                    b STARTS AT: 
+                    = route.arrived_at
+                  li.list-group-item 
+                    b END AT: 
+                    = route.departure_at
+                  li.list-group-item 
+                    b SOURCE STATION: 
+                    = route.source_station.name
+                  li.list-group-item 
+                    b FINAL STATION: 
+                    = route.destination_station.name  
+                  li.list-group-item 
+                    b DISTANCE: 
+                    = "#{route.distance} Km"
+                  li.list-group-item 
+                    b PRICE: 
+                    = "vary on coach class"
+        - else
+          p this train doesn't have any routes
+
+        hr
+      .modal-footer
+        button.btn.btn-secondary.close-modal type="button" data-bs-dismiss="modal" Cancel
+
+= javascript_include_tag "seats/close_modal"

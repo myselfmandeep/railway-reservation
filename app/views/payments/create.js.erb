@@ -1,0 +1,13 @@
+console.log("payments create js erb")
+
+const paymentForm  = document.querySelector("#make-payment");
+const paymentField = document.querySelector(".booking-payment");
+const paymentModal = document.querySelector("#payment-modal");
+
+<% if @payment.save %>
+  paymentForm.remove();
+  paymentModal.remove();
+  paymentField.value = "<%= @payment.id %>"
+<% else %>
+
+<% end %>

@@ -1,0 +1,7 @@
+- if object.errors.any?
+    ul#errors-occured
+      - object.errors.full_messages.each do |error|
+        li.text-danger
+          = error
+
+= javascript_include_tag "shared/errors-occured"

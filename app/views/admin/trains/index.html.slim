@@ -1,0 +1,50 @@
+
+.container
+  / = render partial: "shared/alert", locals: {message: flash[:notice], nature: "success"}
+  = alert_bar("success")
+  h1 Trains
+  = render partial: "shared/filter_bar", locals: {scope: "trains-filter", values: %w[Train-name Train-no.]}
+
+  .row.train-routes-modal
+    - @trains.each do |train|
+      .col-4.train
+        .card.m-1
+          .card-body 
+            h5.card-title.train-name
+              = train.name
+
+            p
+              b train number:
+              |
+              span.train-number = train.uniq_number
+            p 
+              b working_days:
+              - train.working_days.each do |day|
+                |
+                = " #{day}"
+            p 
+              b coaches:
+              - Coach.includes(:tier).where(id: train.coaches).each do |coach|
+                |
+                = " | #{coach.tier.short_form}"
+            
+            p
+              b category: 
+              |
+              = train.category
+
+            p
+              b Added: 
+              |
+              = format_date(train.created_at)
+              
+            div id="train-#{train.id}"
+
+            = link_to "Train Routes",  admin_train_route_detail_path(train_id: train.id), class: "btn btn-secondary m-3", remote: true
+            = link_to "Edit Train",    edit_admin_train_path(train),                       class: "btn btn-secondary m-3"
+            = link_to "Delete",        admin_train_path(train), method: :delete,           class: "btn btn-danger m-3"
+        
+            / button.train-routes.btn.btn-secondary data-train-id="#{train.id}" Train Routes
+
+= javascript_include_tag "trains/train_routes"
+= javascript_include_tag "filters/train-filter"

@@ -1,0 +1,42 @@
+.modal.remove-modal id="train-booking" tabindex="1" style="display: block;"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        h5.modal-title id="booking-modal" = booking.schedule.train.name
+        button.btn-close.close-modal type="button"
+      .modal-body
+        #booking-errors
+        = form_with url: new_booking_path, method: :get do |f|
+          / = f.hidden_field :schedule_id, value: booking.schedule.id, class: "train-route-id"
+          = f.hidden_field :schedule_id, value: booking.schedule.id, class: "train-route-id"
+          = f.hidden_field :status, value: "", class: "booking-status"
+          = f.hidden_field :user_id, value: current_user.id
+
+          .mb-3
+            = f.label :date
+            = f.date_field :date, value: Date.today, min: Date.today.strftime("%Y-%m-%d"), class: "form-control booking-date"
+
+          .mb-3          
+            = f.label :coach_class
+            / = f.select :coach_class, Coach.where(id: booking.schedule.train.coaches).select(:slug_name).distinct.pluck(:slug_name).collect { |coach| [Coach::CLASS[coach], coach] }.unshift(["Select coach class", ""]), {}, { class: "form-select coach-class" }
+            / = binding.pry
+            / = f.select :coach_class, Coach.where(id: booking.schedule.train.coaches).distinct.collect { |coach| [coach.tier.name, coach.tier.id] }.unshift(["Select coach class", ""]), {}, { class: "form-select coach-class" }
+            = f.select :coach_class, Tier.joins(:coaches).where(coaches: {id: booking.schedule.train.coaches}).distinct.collect { |tier| [tier.name, tier.id] }.unshift(["Select coach class", ""]), {}, { class: "form-select coach-class" }
+
+          .mb-3
+            = f.label :seats
+            = f.number_field :seats, class: "form-control booking-seats", placeholder: "no. of passengers"
+          .mb-3
+            h3 
+              |
+              b#amount.booking-amount
+              ||
+              b.available-seats
+            = f.hidden_field :amount, class: "form-control"
+          .mb-3
+            = f.submit "Book", class: "btn btn-secondary", id: "initiate-booking"
+          / hr
+
+      .modal-footer
+
+= javascript_include_tag "bookings/booking_form"

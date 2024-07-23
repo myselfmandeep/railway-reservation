@@ -1,0 +1,30 @@
+
+/ = binding.pr  y
+.container
+  / = render partial: "shared/error", obj: @user
+
+  / - if !!flash[:notice]
+  /   div.alert.alert-success#logout-alert role="alert"
+  /     = flash[:notice]
+  /     button.btn.btn-danger#logout-alert-btn X
+  h1 Login Form
+  .row
+    .col-3
+      / = render partial: "shared/alert", locals: {message: notice, nature: "danger"}
+      = alert_bar("danger")
+      = form_with url: verify_path do |f|
+        .mb-3
+          = f.label :email, class: "form-label"
+          = f.text_field :email, class: "form-control email-input"
+  
+        .mb-3
+          = f.label :password, class: "form-label"
+          = f.password_field :password, class: "form-control password-input"
+  
+        .mb-3
+          = f.submit "Login", class: "btn btn-primary login-btn"
+  
+    = link_to "SIGN UP", sign_up_path
+    = link_to "FORGOT", forgot_path
+
+= javascript_include_tag "sessions/login_form"

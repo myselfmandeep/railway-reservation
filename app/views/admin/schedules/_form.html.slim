@@ -1,0 +1,39 @@
+.container
+  h1 Train
+  = render partial: "admin/users/error", locals: {object: schedule}
+  .col-3
+    = form_with model: schedule, url: path do |f|
+      .col
+        = f.label :train_id, class: "form-label"
+        = f.select :train_id, Train.order(:name).collect { |train| [train.name, train.id] }, {}, class: "form-select"
+      
+      .col
+        = f.label :source_station_id, class: "form-label"
+        = f.select :source_station_id, stations_list(true), {}, {class: "form-select select_source_station"}
+        / = f.select :source_station_id, Station.order(:name).collect { |station| [station.name, station.id] }, {}, class: "form-select"
+      
+      .col
+        = f.label :destination_station_id, class: "form-label"
+        / = f.select :destination_station_id, Station.order(:name).collect { |station| [station.name, station.id] }, {}, class: "form-select"
+        = f.select :destination_station_id, stations_list(false), {}, {class: "form-select select_destination_station"}
+      
+      .col-4
+        = f.label :arrived_at, class: "form-label"
+        = f.time_field :arrived_at, class: "form-control start-time"
+      
+      .col-4
+        = f.label :departure_at, class: "form-label"
+        = f.time_field :departure_at, class: "form-control end-time"
+
+      / .col-4
+      /   = f.label :price, class: "form-label"
+      /   = f.text_field :price, class: "form-control"
+
+      .col-4
+        = f.label :distance, class: "form-label"
+        = f.text_field :distance, class: "form-control", placeholder: "in km"
+      
+      .col
+        = f.submit "Publish", class: "btn btn-secondary mt-3"
+
+= javascript_include_tag "sessions/search"
