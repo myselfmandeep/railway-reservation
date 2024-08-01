@@ -8,10 +8,11 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many                :bookings, dependent:  :destroy
-  has_many                :payments, dependent:  :nullify
-  has_many                :tickets, through:    :bookings
+  has_many                :payments, dependent:  :destroy
   has_many                :user_roles
-  has_many                :roles, through: :user_roles
+  has_many                :tickets, through:    :bookings
+  has_many                :roles,   through:    :user_roles
+  has_many                :messages, class_name: "Message", foreign_key: "sender_id"
   # has_and_belongs_to_many :roles, join_table: :user_roles
 
   GENDER = %w[male female other].freeze

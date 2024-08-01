@@ -10,6 +10,7 @@
   - else
     = link_to "Homepage", root_path, class: "#{active_current_tab("homepage")}"
 
+  = link_to "Chat", conversation_path, class: "#{active_current_tab("chat")}"
   = link_to "Profile", profile_path, class: "#{active_current_tab("profile")}"
   = link_to "Bookings", bookings_path, class: "#{active_current_tab("booking")}"
   = link_to "Logout", logout_path, method: :delete, class: "bg-danger"

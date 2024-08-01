@@ -1,0 +1,9 @@
+.row
+  .col-2.d-flex.flex-column
+    - @users.each do |user|
+      .btn.btn-primary.m-2.username data-user-id="#{user.id}"
+        = user.email.split("@").first
+  .col-10#chat-container
+    / element will add here dynamically
+
+= javascript_include_tag "chats/main", type: :module

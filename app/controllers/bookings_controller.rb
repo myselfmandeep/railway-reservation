@@ -29,29 +29,15 @@ class BookingsController < ApplicationController
         avail_seats    = Seat.get_available_seats(@booking.schedule, @booking.date, booking_class, num_of_seats)
         
         passengers     =  ticket_params.values.map do |passenger| 
-          seat_id  = avail_seats.shift
-          status   = seat_id.nil? ? Ticket::WAITING : Ticket::CONFIRMED
+          seat_id = avail_seats.shift
+          status  = seat_id.nil? ? Ticket::WAITING : Ticket::CONFIRMED
           
-          permit_ticket(passenger).merge!({seat_id: seat_id, status: status})
+          @booking.tickets.create!(permit_ticket(passenger).merge!({seat_id: seat_id, status: status}))
         end
-        
-        @booking.tickets.create!(passengers)
-        
-        # binding.pry
-        # passengers
-        
-        # passengers.each do |passenger|
-        #   seat_id  = avail_seats.shift
-        #   status   = seat_id.nil? ? Ticket::WAITING : Ticket::CONFIRMED
-        #   ticket   = @booking.tickets.build(permit_ticket(passenger).merge!({seat_id: seat_id, status: status}))
-        
-        #   ticket.save!
-        # end
       end
       
       redirect_to booking_ticket_path(@booking.id), notice: "successfully booked ticket for #{@booking.schedule.train.name}, which boarding on #{@booking.date}"
     rescue ActiveRecord::RecordInvalid => e
-      # binding.pry
       redirect_to root_path, notice: e.record.errors.full_messages
     end
 

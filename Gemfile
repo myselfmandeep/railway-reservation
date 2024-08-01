@@ -48,6 +48,7 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
+  gem "pry", "~> 0.14.2"
 end
 
 group :development do
@@ -71,12 +72,8 @@ group :test do
 end
 
 gem 'pg', '~> 1.5', '>= 1.5.6'
-
-gem "pry", "~> 0.14.2"
-
 gem "faker", "~> 3.4"
 gem 'jquery-rails'
-
 gem 'slim', '~> 3.0', '>= 3.0.6'
 gem 'bootstrap', '~> 5.2', '>= 5.2.3'
 gem 'sass-rails'
@@ -84,3 +81,10 @@ gem 'active_model_serializers'
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 gem 'sendgrid-ruby'
 gem 'will_paginate', '~> 4.0'
+gem 'grape'
+gem 'grape-route-helpers'
+gem 'grape-entity', '~> 1.0', '>= 1.0.1'
+gem 'devise', '~> 4.9', '>= 4.9.4'
+gem 'devise-jwt'
+gem 'jwt'
+gem 'faraday', '~> 2.9'

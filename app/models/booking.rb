@@ -6,6 +6,10 @@ class Booking < ApplicationRecord
   belongs_to :payment
 
   accepts_nested_attributes_for :tickets
+
+  before_save -> {
+    self.pnr_number = get_random_number(9)
+  }
   
   default_scope -> { order(date: :desc) }
   

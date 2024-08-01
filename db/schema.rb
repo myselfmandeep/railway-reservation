@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_18_212856) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_30_111325) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_18_212856) do
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
+  create_table "chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "participants", default: [], array: true
+  end
+
   create_table "coaches", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -35,6 +39,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_18_212856) do
     t.bigint "tier_id"
     t.text "description"
     t.index ["tier_id"], name: "index_coaches_on_tier_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "body"
+    t.bigint "sender_id", null: false
+    t.uuid "chat_id", null: false
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
   create_table "payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -144,6 +156,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_18_212856) do
   add_foreign_key "bookings", "schedules"
   add_foreign_key "bookings", "users"
   add_foreign_key "coaches", "tiers"
+  add_foreign_key "messages", "chats"
+  add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "payments", "users"
   add_foreign_key "schedules", "stations", column: "destination_station_id"
   add_foreign_key "schedules", "stations", column: "source_station_id"

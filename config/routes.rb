@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  mount Base => '/api'
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -17,6 +20,9 @@ Rails.application.routes.draw do
   get "/forgot", to: "sessions#forgot"
   post "/reset_password", to: "sessions#reset"
 
+  get "conversation", to: "chats#conversation", defaults: {tab: "chat"}
+  get "get_user", to: "chats#get_current_user"
+  
   namespace :api do
     namespace :v1 do
       resources :train_routes, only: %i[index] do
