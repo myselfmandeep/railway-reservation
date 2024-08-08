@@ -2,6 +2,8 @@ module V1
   module Admin
     class Stations < Grape::API
 
+      helpers V1::Helpers::CommonParams
+
       resource :stations do
 
         desc "return all users"
@@ -68,6 +70,16 @@ module V1
             end
           end
           
+        end
+
+        desc "search for station"
+        params do
+          use :searchable
+        end 
+        get :search do
+          stations = Station.where("name ILIKE :search OR city ILIKE :search OR abbr ILIKE :search", search: "%#{search_query}%") 
+
+          present stations, with: V1::Entities::Stations
         end
         
       end        

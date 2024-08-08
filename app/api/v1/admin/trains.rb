@@ -2,6 +2,8 @@ module V1
   module Admin
     class Trains < Grape::API
 
+      helpers V1::Helpers::CommonParams
+
       resource :trains do
 
         desc "return all trains" 
@@ -67,6 +69,14 @@ module V1
             error!({error: "failed to destroy user"}, 403)
           end
           
+        end
+        
+        desc "search for train"
+        params do
+          use :searchable 
+        end 
+        get :search do
+          trains = Train.where("name ILIKE :search OR (CAST(uniq_number AS Text) LIKE :search) OR category ILIKE :search", search: "%#{search_query}%")
         end
         
       end

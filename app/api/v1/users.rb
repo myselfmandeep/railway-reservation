@@ -1,6 +1,8 @@
 module V1
   class Users < Grape::API
 
+    helpers V1::Helpers::CommonParams
+    
     resource :users do
       
       desc "List of all users"
@@ -69,6 +71,16 @@ module V1
             error!({ error: "Failed to delete the user" }, 405)
         end
       end
+
+      desc "search users"
+      params do
+        use :searchable 
+      end 
+      get :search do
+        users = User.where("name ILIKE :search OR email ILIKE :search OR user_name ILIKE :search", search: "%#{search_query}%")
+        present users, with: V1::Entities::Users
+      end
+
     end
   end
 end
