@@ -8,7 +8,7 @@ module V1
     
     before do
       unless request.request_method == "POST" && request.path == "/api/v1/auth/session"
-        # authenticate!
+        authenticate!
       end
     end
     
